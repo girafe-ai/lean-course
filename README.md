@@ -1,8 +1,6 @@
 # Formalising Mathematics
 
-This is the repository for Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover. The course ran from January to March 2024. 
-
-Note: this course is written in Lean 4. Previous versions of this course were written in the (now end-of-life) Lean 3.
+This is the course repo for the Lean theorem prover at MIPT. It is a fork of Kevin Buzzard's course "Formalising mathematics" repo taught in Imperial College London.
 
 ## Local installation
 
@@ -19,26 +17,26 @@ The most painless way to install the repository is using VS Code directly. With 
 and select `Open Project` -> `Project: Download Project`. Type in the following URL into the text box which appeared:
 
 ```
-https://github.com/ImperialCollegeLondon/formalising-mathematics-2024
+https://github.com/vasnesterov/formalising-mathematics-mipt-2025
 ```
 
-and then select the directory where you want the project installed, type in the name of a folder (for example formalising-mathematics-2024) and then wait for a minute or two while everything downloads and compiles. Then accept the suggestion to open the course directory, and you should be up and running. Open up VS Code's file explorer (it looks like this)
+and then select the directory where you want the project installed, type in the name of a folder (for example formalising-mathematics-2025) and then wait for a minute or two while everything downloads and compiles. Then accept the suggestion to open the course directory, and you should be up and running. Open up VS Code's file explorer (it looks like this)
 
 ![File explorer](png/file_explorer.png?raw=true "File explorer")
 
-and navigate to the `FormalisingMathematics2024` directory, where you should find a whole bunch of directories containing the exercises.
+and navigate to the `FormalisingMathematics2025` directory, where you should find a whole bunch of directories containing the exercises.
 
 ### Local installation via command line
 
 An older way is via the command line. Fire up the same command line which you used to install Lean 4 and type this:
 
 ```bash
-git clone git@github.com:ImperialCollegeLondon/formalising-mathematics-2024.git
-cd formalising-mathematics-2024
+git clone https://github.com/vasnesterov/formalising-mathematics-mipt-2025
+cd formalising-mathematics-mipt-2025
 lake exe cache get
 ```
 
-Now open the folder `formalising-mathematics-2024` which you just created, using VS Code's "open folder" functionality. You will find all the exercises for the course inside a subdirectory called `FormalisingMathematics2024` (don't confuse these two
+Now open the folder `formalising-mathematics-mipt-2025` which you just created, using VS Code's "open folder" functionality. You will find all the exercises for the course inside a subdirectory called `FormalisingMathematics2025` (don't confuse these two
 directories! One has hyphens, the other does not).
 ## Online play
 
@@ -46,12 +44,12 @@ If you don't have the 4.5 gigabytes necessary to install all this, or if your co
 
 ### Method 1: via Gitpod.
 
-Just click here: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ImperialCollegeLondon/formalising-mathematics-2024)
+Just click here: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ImperialCollegeLondon/formalising-mathematics-2025)
 
 ### Method 2: via Codespaces
 
-Just click here: [![Open in Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ImperialCollegeLondon/formalising-mathematics-2024)
+Just click here: [![Open in Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ImperialCollegeLondon/formalising-mathematics-2025)
 
 ## Course notes
 
-They are [here](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/). 
+They are [here](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2025/). 
