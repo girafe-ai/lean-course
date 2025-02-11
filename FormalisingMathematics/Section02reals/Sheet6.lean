@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all the Lean tactics
-import FormalisingMathematics2024.Solutions.Section02reals.Sheet5 -- import a bunch of previous stuff
+import FormalisingMathematics.Solutions.Section02reals.Sheet5 -- import a bunch of previous stuff
 
 namespace Section2sheet6
 

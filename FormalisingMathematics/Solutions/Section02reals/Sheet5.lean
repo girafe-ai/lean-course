@@ -5,7 +5,7 @@ Author : Kevin Buzzard
 -/
 import Mathlib.Tactic
 -- imports all the Lean tactics
-import FormalisingMathematics2024.Solutions.Section02reals.Sheet3
+import FormalisingMathematics.Solutions.Section02reals.Sheet3
 -- import the definition of `TendsTo` from a previous sheet
 
 namespace Section2sheet5solutions
