@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all the Lean tactics
+set_option linter.all false
 
 /-!
 
@@ -18,7 +19,7 @@ tactics, plus the following two new ones. Check out their explanations
 in the course book. Or just try them out and hover over them to see
 if you can understand what's going on.
 
-* `triv`
+* `trivial`
 * `exfalso`
 
 -/

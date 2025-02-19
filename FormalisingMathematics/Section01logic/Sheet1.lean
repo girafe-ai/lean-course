@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all of the tactics in Lean's maths library
-
+set_option linter.all false
 
 /-!
 
@@ -78,7 +78,7 @@ example (fish : P) (giraffe : Q) (dodecahedron : R) : P := by
 -- Assume `Q` is true. Prove that `P → Q`.
 example (hQ : Q) : P → Q := by
   -- The goal is of the form `X → Y` so we can use `intro`
-  intro h
+  intro hP
   -- now `h` is the hypothesis that `P` is true.
   -- Our goal is now the same as a hypothesis so we can use `exact`
   exact hQ

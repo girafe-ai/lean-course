@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- import all the tactics
+set_option linter.all false
 
 /-!
 
