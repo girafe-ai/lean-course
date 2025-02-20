@@ -14,7 +14,7 @@ We learn about how to manipulate `¬ P` in Lean.
 
 # The definition of `¬ P`
 
-In Lean, `¬ P` is *defined* to mean `P → false`. So `¬ P` and `P → false`
+In Lean, `¬ P` is *defined* to mean `P → False`. So `¬ P` and `P → false`
 are *definitionally equal*. Check out the explanation of definitional
 equality in the "equality" section of Part B of the course notes:
 https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/equality.html
@@ -34,11 +34,19 @@ and the following tactics may also be useful:
 variable (P Q R : Prop)
 
 example : ¬True → False := by
-  sorry
+  -- intro h
+
+  -- change (True → False) → False
+  intro h
+  change True → False at h
+  apply h
+  trivial
   done
 
 example : False → ¬True := by
-  sorry
+  intro h
+  exfalso
+  exact h
   done
 
 example : ¬False → True := by
@@ -58,7 +66,12 @@ example : P → ¬P → False := by
   done
 
 example : P → ¬¬P := by
-  sorry
+  intro hP
+  -- change (¬P → False)
+  intro hp'
+  -- change P → False at hp'
+  apply hp'
+  exact hP
   done
 
 example : (P → Q) → ¬Q → ¬P := by
@@ -70,8 +83,20 @@ example : ¬¬False → False := by
   done
 
 example : ¬¬P → P := by
-  sorry
+  intro h
+  change (P → False) → False at h
+  by_cases hP : P
+  exact hP
+  exfalso
+  apply h
+  exact hP
   done
+
+example : ¬¬P → P := by
+  intro h
+  by_contra h'
+  apply h
+  exact h'
 
 example : (¬Q → ¬P) → P → Q := by
   sorry

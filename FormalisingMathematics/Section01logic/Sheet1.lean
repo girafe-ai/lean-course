@@ -75,10 +75,10 @@ example (fish : P) (giraffe : Q) (dodecahedron : R) : P := by
   exact fish
   done
 
--- Assume `Q` is true. Prove that `P → Q`.
+-- Assume `Q` is true. Prove that `P -> Q`.
 example (hQ : Q) : P → Q := by
   -- The goal is of the form `X → Y` so we can use `intro`
-  intro hP
+  intro ababab
   -- now `h` is the hypothesis that `P` is true.
   -- Our goal is now the same as a hypothesis so we can use `exact`
   exact hQ
@@ -119,7 +119,8 @@ Delete the `sorry`s and replace them with tactic proofs using `intro`,
 -/
 /-- Every proposition implies itself. -/
 example : P → P := by
-  sorry
+  intro hP
+  exact hP
   done
 
 /-
@@ -138,13 +139,17 @@ So the next level is asking you prove that `P → (Q → P)`.
 
 -/
 example : P → Q → P := by
-  sorry
+  intro hP hQ
+  exact hP
   done
 
 /-- If we know `P`, and we also know `P → Q`, we can deduce `Q`.
 This is called "Modus Ponens" by logicians. -/
 example : P → (P → Q) → Q := by
-  sorry
+  intro hP
+  intro h
+  apply h at hP
+  exact hP
   done
 
 /-- `→` is transitive. That is, if `P → Q` and `Q → R` are true, then

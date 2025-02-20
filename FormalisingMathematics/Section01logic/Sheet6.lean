@@ -27,15 +27,24 @@ and also the following tactics
 variable (P Q R S : Prop)
 
 example : P → P ∨ Q := by
-  sorry
+  intro hP
+  left
+  exact hP
   done
 
 example : Q → P ∨ Q := by
-  sorry
+  intro hQ
+  right
+  exact hQ
   done
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
-  sorry
+  intro h1 h2 h3
+  cases' h1 with h4 h5
+  apply h2
+  exact h4
+  apply h3
+  exact h5
   done
 
 -- symmetry of `or`
@@ -62,8 +71,27 @@ example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) := by
 
 -- de Morgan's laws
 example : ¬(P ∨ Q) ↔ ¬P ∧ ¬Q := by
-  sorry
-  done
+  constructor
+  · intro h
+    constructor
+    · change P → False
+      intro hP
+      change P ∨ Q → False at h
+      apply h
+      left
+      exact hP
+    · sorry
+  · intro h
+    cases' h with hP hQ
+    change P ∨ Q → False
+    intro h
+    apply hP
+    cases' h with h1 h2
+    · exact h1
+    · exfalso
+      apply hQ
+      exact h2
+      done
 
 example : ¬(P ∧ Q) ↔ ¬P ∨ ¬Q := by
   sorry
