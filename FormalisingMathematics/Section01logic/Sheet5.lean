@@ -36,17 +36,26 @@ example : (P ↔ Q) → (Q ↔ P) := by
   done
 
 example : (P ↔ Q) ↔ (Q ↔ P) := by
-  sorry
+  constructor
+  intro h1
+  rewrite [h1]
+  rfl
+  intro h2
+  rewrite [h2]
+  rfl
   done
 
 example : (P ↔ Q) → (Q ↔ R) → (P ↔ R) := by
-  sorry
+  intro h1 h2
+  rewrite [h1, h2]
+  rfl
   done
 
 example : P ∧ Q ↔ Q ∧ P := by
   constructor
-  sorry
-  sorry
+  intro h
+  cases' h with hP hQ
+  
   done
 
 example : (P ∧ Q) ∧ R ↔ P ∧ Q ∧ R := by

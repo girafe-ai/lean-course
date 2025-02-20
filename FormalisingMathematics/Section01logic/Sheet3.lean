@@ -50,19 +50,29 @@ example : False → ¬True := by
   done
 
 example : ¬False → True := by
-  sorry
+  intro h1
+  trivial
   done
 
 example : True → ¬False := by
-  sorry
+  intro h1
+  change False → False
+  intro h2
+  exact h2
   done
 
 example : False → ¬P := by
-  sorry
+  intro h1
+  change P → False
+  intro h2
+  exact h1
   done
 
 example : P → ¬P → False := by
-  sorry
+  intro h1 h2
+  change (P → False) at h2
+  apply h2
+  exact h1
   done
 
 example : P → ¬¬P := by
@@ -75,11 +85,20 @@ example : P → ¬¬P := by
   done
 
 example : (P → Q) → ¬Q → ¬P := by
-  sorry
+  intro h1 h2
+  change P → False
+  change Q → False at h2
+  intro hP
+  apply h2
+  apply h1
+  exact hP
   done
 
 example : ¬¬False → False := by
-  sorry
+  intro h
+  apply h
+  intro h'
+  exact h'
   done
 
 example : ¬¬P → P := by
@@ -99,5 +118,9 @@ example : ¬¬P → P := by
   exact h'
 
 example : (¬Q → ¬P) → P → Q := by
-  sorry
+  intro h1 h2
+  by_contra h'
+  apply h1
+  exact h'
+  exact h2
   done

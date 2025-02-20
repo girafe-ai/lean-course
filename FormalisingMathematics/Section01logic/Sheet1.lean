@@ -155,13 +155,20 @@ example : P → (P → Q) → Q := by
 /-- `→` is transitive. That is, if `P → Q` and `Q → R` are true, then
   so is `P → R`. -/
 example : (P → Q) → (Q → R) → P → R := by
-  sorry
+  intro h1 h2 hP
+  apply h2
+  apply h1 at hP
+  exact hP
   done
 
 -- If `h : P → Q → R` with goal `⊢ R` and you `apply h`, you'll get
 -- two goals! Note that tactics operate on only the first goal.
 example : (P → Q → R) → (P → Q) → P → R := by
-  sorry
+  intro h1 h2 hP
+  apply h1
+  exact hP
+  apply h2
+  exact hP
   done
 
 /-
@@ -176,27 +183,53 @@ in this section, where you'll learn some more tactics.
 variable (S T : Prop)
 
 example : (P → R) → (S → Q) → (R → T) → (Q → R) → S → T := by
-  sorry
+  intro h1 h2 h3 h4 h5
+  apply h3
+  apply h4
+  apply h2 at h5
+  exact h5
   done
 
 example : (P → Q) → ((P → Q) → P) → Q := by
-  sorry
+  intro h1 h2
+  apply h1
+  apply h2 at h1
+  exact h1
   done
 
 example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P := by
-  sorry
+  intro h1 h2 h3
+  apply h2
+  intro h4
+  apply h1
+  intro h5
+  exact h4
   done
 
 example : ((Q → P) → P) → (Q → R) → (R → P) → P := by
-  sorry
+  intro h1 h2 h3
+  apply h1
+  intro h4
+  apply h3
+  apply h2 at h4
+  exact h4
   done
 
 example : (((P → Q) → Q) → Q) → P → Q := by
-  sorry
+  intro h1 h2
+  apply h1
+  intro h3
+  apply h3 at h2
+  exact h2
   done
 
 example :
     (((P → Q → Q) → (P → Q) → Q) → R) →
       ((((P → P) → Q) → P → P → Q) → R) → (((P → P → Q) → (P → P) → Q) → R) → R := by
-  sorry
+  intro h1 h2 h3
+  apply h2
+  intro h4 h5 h6
+  apply h4
+  intro h7
+  exact h5
   done

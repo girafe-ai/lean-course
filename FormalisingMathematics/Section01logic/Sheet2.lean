@@ -65,13 +65,21 @@ example : True → False → True → False → True → False := by
   done
 
 example : P → (P → False) → False := by
-  sorry
+  intro h1 h2
+  apply h2
+  exact h1
   done
 
 example : (P → False) → P → Q := by
-  sorry
+  intro h1 h2
+  exfalso
+  apply h1
+  exact h2
   done
 
 example : (True → False) → P := by
-  sorry
+  intro h1
+  exfalso
+  apply h1
+  trivial
   done
