@@ -55,7 +55,7 @@ def genBy (A : Set X) : MeasurableSpace X where
       cases' h1 with j hj
       use j
       rw [hj]
-      triv
+      trivial
     push_neg at h1
     by_cases h2 : ∃ j k, f j = A ∧ f k = Aᶜ
     · right; right; right; rw [eq_top_iff]; rintro x -

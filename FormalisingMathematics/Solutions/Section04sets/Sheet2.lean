@@ -30,7 +30,7 @@ open Set
 
 `x ∈ ∅` is *by definition* equal to `False` and `x ∈ univ` is *by definition*
 equal to `True`. You can use the `change` tactic to make these changes
-if you like. But you don't have to. Remember that `triv` proves `True`
+if you like. But you don't have to. Remember that `trivial` proves `True`
 and `cases h` will solve a goal if `h : False` (because there are no cases!)
 
 -/
@@ -42,14 +42,14 @@ variable (X : Type) -- Everything will be a subset of `X`
 
 open Set
 
-example : x ∈ (univ : Set X) := by triv
+example : x ∈ (univ : Set X) := by trivial
 
 example : x ∈ (∅ : Set X) → False :=
   id
 
 example : A ⊆ univ := by
   intro x hxA
-  triv
+  trivial
 
 example : ∅ ⊆ A := by
   -- rintro x ⟨⟩ -- solves goal in one line

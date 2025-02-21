@@ -36,7 +36,7 @@ example : ¬True → False := by
   intro h
   change True → False at h -- you don't have to do this
   apply h
-  triv
+  trivial
 
 example : False → ¬True := by
   intro h
@@ -45,7 +45,7 @@ example : False → ¬True := by
 
 example : ¬False → True := by
   intro h
-  triv
+  trivial
 
 example : True → ¬False := by
   intro h

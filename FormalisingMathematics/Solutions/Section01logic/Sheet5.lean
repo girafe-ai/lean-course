@@ -64,7 +64,7 @@ example : P ↔ P ∧ True := by
   · intro hP
     constructor
     · exact hP
-    · triv
+    · trivial
   · rintro ⟨hP, -⟩
     exact hP
 

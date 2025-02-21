@@ -54,7 +54,7 @@ example : P → P ∧ True := by
   intro hP
   constructor
   · exact hP
-  · triv
+  · trivial
 
 example : False → P ∧ False := by
   intro h

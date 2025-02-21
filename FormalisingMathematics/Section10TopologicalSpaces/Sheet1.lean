@@ -32,7 +32,7 @@ example : TopologicalSpace X where
   IsOpen (s : Set X) := True -- "Is `s` open? Yes, always"
   isOpen_univ := by
     -- is the whole space open? The goal is `True`
-    triv
+    trivial
   isOpen_inter := by
     -- let s and t be two sets
     intros s t
@@ -40,14 +40,14 @@ example : TopologicalSpace X where
     intros hs ht
     -- Is their intersection open?
     -- By definition, this means "can you prove `True`"?
-    triv
+    trivial
   isOpen_sUnion := by
     -- say F is a family of sets
     intro F
     -- say they're all open
     intro hF
     -- Is their union open?
-    triv
+    trivial
 
 /-
 A much more fiddly challenge is to formalise the indiscrete topology. You will be constantly
