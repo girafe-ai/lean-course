@@ -5,12 +5,12 @@ Author : Kevin Buzzard
 -/
 import Mathlib.Tactic
 -- imports all the Lean tactics
-import FormalisingMathematics.Solutions.Section02reals.Sheet3
+import FormalisingMathematics.Section02reals.Sheet3
 -- import the definition of `TendsTo` from a previous sheet
 
 namespace Section2sheet5
 
-open Section2sheet3solutions
+open Section2sheet3
 
 -- you can maybe do this one now
 theorem tendsTo_neg {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fun n ↦ -a n) (-t) := by

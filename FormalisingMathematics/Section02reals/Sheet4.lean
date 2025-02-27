@@ -68,3 +68,6 @@ example (a b c d x y : ℝ) (h1 : a + c < x) (h2 : b + d < y) : a + b + c + d < 
 
 -- note that add_lt_add doesn't work because
 -- ((a+b)+c)+d and (a+c)+(b+d) are not definitionally equal
+
+example (a b c d : ℝ) (h1 : a + 3 = max b c + 2) (h2 : max b c ≤ d) : a ≤ |d| := by
+  sorry
