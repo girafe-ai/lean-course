@@ -30,7 +30,7 @@ open Section2sheet5
 /-- Задача 1.
 Комментарий: на самом деле условие `hc` не требуется. Можете попробовать его убрать доказать факт в общем случае.
 -/
-example (a : ℕ → ℝ) (t : ℝ) (h : TendsTo a t) (c : ℝ) :
+example (a : ℕ → ℝ) (t : ℝ) (h : TendsTo a t) (c : ℝ) (hc : 0 < c) :
     TendsTo (fun n ↦ c * a n) (c * t) := by
   sorry
 
