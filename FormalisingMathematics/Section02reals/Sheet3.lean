@@ -21,7 +21,11 @@ sending n to n^2 + 3:
 
 -/
 
-def f : ℕ → ℝ := fun n ↦ n ^ 2 + 3
+-- def c : ℝ := 2
+
+-- def f : ℕ → ℝ := fun (n : ℕ) ↦ n ^ 2 + 3
+
+-- def g (n : ℕ) := f n
 
 /-
 
@@ -47,7 +51,18 @@ Here's the definition of the limit of a sequence.
 /-- If `a(n)` is a sequence of reals and `t` is a real, `TendsTo a t`
 is the assertion that the limit of `a(n)` as `n → ∞` is `t`. -/
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
-  ∀ ε > 0, ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε
+  ∀ ε : ℝ, ε > 0 → ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε
+
+example : TendsTo (fun n ↦ 1) 1 := by
+  unfold TendsTo
+  intro ε hε
+  use 0
+  intro n hn
+  -- change |1 - 1| < ε
+  dsimp
+  norm_num
+  change 0 < ε at hε
+  exact hε
 
 /-
 
@@ -57,9 +72,19 @@ for the definition, i.e. prove some basic theorems about it.
 -/
 -- If your goal is `TendsTo a t` and you want to replace it with
 -- `∀ ε > 0, ∃ B, …` then you can do this with `rw tendsTo_def`.
-theorem tendsTo_def {a : ℕ → ℝ} {t : ℝ} :
+theorem tendsTo_def (a : ℕ → ℝ) (t : ℝ) :
     TendsTo a t ↔ ∀ ε, 0 < ε → ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε := by
   rfl  -- true by definition
+
+example : TendsTo (fun n ↦ 1) 1 := by
+  rw [tendsTo_def]
+  intro ε hε
+  use 0
+  intro n hn
+  -- change |1 - 1| < ε
+  norm_num
+  change 0 < ε at hε
+  exact hε
 
 -- the eagle-eyed viewers amongst you might have spotted
 -- that `∀ ε > 0, ...` and `∀ ε, ε > 0 → ...` and `∀ ε, 0 < ε → ...`
@@ -84,8 +109,7 @@ theorem tendsTo_thirtyseven : TendsTo (fun n ↦ 37) 37 :=
   exact hε
 
 /-- The limit of the constant sequence with value `c` is `c`. -/
-theorem tendsTo_const (c : ℝ) : TendsTo (fun n ↦ c) c :=
-  by
+theorem tendsTo_const (c : ℝ) : TendsTo (fun n ↦ c) c := by
   intro ε hε
   dsimp only
   use 37
@@ -94,27 +118,35 @@ theorem tendsTo_const (c : ℝ) : TendsTo (fun n ↦ c) c :=
   norm_num
   exact hε
 
+example (p q : Prop) (h : p ∧ q) : q := by
+  obtain ⟨hp, hq⟩ := h
+  exact hq
+
 /-- If `a(n)` tends to `t` then `a(n) + c` tends to `t + c` -/
 theorem tendsTo_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t) :
-    TendsTo (fun n => a n + c) (t + c) :=
-  by
-  -- hints: make sure you know the maths proof!
-  -- use `cases` to deconstruct an `exists`
-  -- hypothesis, and `specialize` to specialize
-  -- a `forall` hypothesis to specific values.
-  -- Look up the explanations of these tactics in Part C
-  -- of the course notes.  rw [tendsTo_def] at h ⊢
-  sorry
+    TendsTo (fun n ↦ a n + c) (t + c) := by
+  simp [TendsTo] at h ⊢
+  intro ε hε
+  specialize h ε hε
+  -- cases' h with B hB
+  obtain ⟨B, hB⟩ := h
+  use B
+
 
 -- you're not quite ready for this one yet though.
 /-- If `a(n)` tends to `t` then `-a(n)` tends to `-t`.  -/
-example {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fun n => -a n) (-t) := by
-  sorry
--- Try this one. You don't know enough material to do it yet!
--- Where do you get stuck? The problem is that I didn't teach you
--- any "API" for (a.k.a. theorems about) the absolute value function |.|.
--- We need to figure out how to prove |(-x)| = |x|,
--- or |a - b| = |b - a| or something like that.
--- Leave this for now and try sheet 4, where you'll learn how to discover these things.
--- We'll come back to this example on sheet 5.
+example {a : ℕ → ℝ} {t : ℝ} (h : TendsTo a t) : TendsTo (fun n => -a n) (-t) := by
+  simp [TendsTo] at h ⊢
+  intro ε hε
+  specialize h ε hε
+  obtain ⟨B, hB⟩ := h
+  use B
+  intro n hn
+  specialize hB n hn
+  calc
+    |-a n + t| = |-(a n - t)| := by ring_nf
+    _ = |a n - t| := by exact abs_neg (a n - t)
+    _ < _ := by assumption
+
+
 end Section2sheet3

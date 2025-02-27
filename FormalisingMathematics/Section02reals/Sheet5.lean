@@ -29,27 +29,29 @@ of the results we proved in sheet 4 will be helpful.
 /-- If `a(n)` tends to `t` and `b(n)` tends to `u` then `a(n) + b(n)`
 tends to `t + u`. -/
 theorem tendsTo_add {a b : ℕ → ℝ} {t u : ℝ} (ha : TendsTo a t) (hb : TendsTo b u) :
-    TendsTo (fun n ↦ a n + b n) (t + u) :=
-  by
-  rw [tendsTo_def] at *
+    TendsTo (fun n ↦ a n + b n) (t + u) := by
+  simp [TendsTo] at *
+  -- rw [tendsTo_def] at *
   -- let ε > 0 be arbitrary
   intro ε hε
   --  There's a bound X such that if n≥X then a(n) is within ε/2 of t
   specialize ha (ε / 2) (by linarith)
+
   cases' ha with X hX
   --  There's a bound Y such that if n≥Y then b(n) is within ε/2 of u
+  -- specialize hb (ε / 2) (by linarith)
   obtain ⟨Y, hY⟩ := hb (ε / 2) (by linarith)
   --  use max(X,Y),
   use max X Y
   -- now say n ≥ max(X,Y)
   intro n hn
-  rw [max_le_iff] at hn
-  specialize hX n hn.1
-  specialize hY n hn.2
+  simp at hn
+  -- rw [Nat.max_le] at hn
+  specialize hX n hn.left
+  specialize hY n hn.right
   --  Then easy.
   rw [abs_lt] at *
-  constructor <;>-- `<;>` means "do next tactic to all goals produced by this tactic"
-    linarith
+  constructor <;> linarith -- `<;>` means "do next tactic to all goals produced by this tactic"
 
 /-- If `a(n)` tends to t and `b(n)` tends to `u` then `a(n) - b(n)`
 tends to `t - u`. -/
