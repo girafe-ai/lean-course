@@ -49,24 +49,71 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 
 -- symmetry of `or`
 example : P ∨ Q → Q ∨ P := by
-  sorry
+  intro h
+  cases' h with hP hQ
+  right
+  exact hP
+  left
+  exact hQ
   done
 
 -- associativity of `or`
 example : (P ∨ Q) ∨ R ↔ P ∨ Q ∨ R := by
-  sorry
+  constructor
+  intro h
+  cases' h with h1 h2
+  cases' h1 with h3 h4
+  left
+  exact h3
+  right
+  left
+  exact h4
+  right
+  right
+  exact h2
+  intro h
+  cases' h with h1 h2
+  left
+  left
+  exact h1
+  cases' h2 with h3 h4
+  left
+  right
+  exact h3
+  right
+  exact h4
   done
 
 example : (P → R) → (Q → S) → P ∨ Q → R ∨ S := by
-  sorry
+  intro h1 h2 h3
+  cases' h3 with h4 h5
+  left
+  apply h1
+  exact h4
+  right
+  apply h2
+  exact h5
   done
 
 example : (P → Q) → P ∨ R → Q ∨ R := by
-  sorry
+  intro h1 h2
+  cases' h2 with h3 h4
+  left
+  apply h1
+  exact h3
+  right
+  exact h4
   done
 
 example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) := by
-  sorry
+  intro h1 h2
+  constructor
+  rw [h1, h2]
+  intro h3
+  exact h3
+  rw [h1, h2]
+  intro h4
+  exact h4
   done
 
 -- de Morgan's laws
@@ -80,7 +127,10 @@ example : ¬(P ∨ Q) ↔ ¬P ∧ ¬Q := by
       apply h
       left
       exact hP
-    · sorry
+    · intro hQ
+      apply h
+      right
+      exact hQ
   · intro h
     cases' h with hP hQ
     change P ∨ Q → False
@@ -94,5 +144,24 @@ example : ¬(P ∨ Q) ↔ ¬P ∧ ¬Q := by
       done
 
 example : ¬(P ∧ Q) ↔ ¬P ∨ ¬Q := by
-  sorry
-  done
+  constructor
+  · intro h
+    by_cases hP : P
+    · right
+      intro hQ
+      apply h
+      constructor
+      exact hP
+      exact hQ
+    · left
+      exact hP
+  · intro h
+    intro hPQ
+    cases' h with h1 h2
+    · apply h1
+      cases' hPQ with hP hQ
+      exact hP
+    · apply h2
+      cases' hPQ with hP hQ
+      exact hQ
+    done
