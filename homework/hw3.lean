@@ -41,11 +41,9 @@ example {X : Type} (A B C : Set X) (h : A ∪ B ⊆ C) : Cᶜ ⊆ Aᶜ ∩ Bᶜ 
 
 /-- Задача 2. -/
 example : ∃ f : ℕ → ℕ × ℕ, f '' {n | Even n} = {(n, m) | n = m} := by
-  use fun n ↦ (n / 2, n / 2)
   sorry
 
 def IsLinear (f : ℚ → ℚ) : Prop := ∃ c, ∀ x, f x = c * x
 
 /-- Задача 3. -/
 example : {f : ℚ → ℚ | IsLinear f ∧ ∀ x, |f x| = |x|} = {id, -id} := by
-  sorry
