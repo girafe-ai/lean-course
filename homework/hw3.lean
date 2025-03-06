@@ -47,3 +47,4 @@ def IsLinear (f : ℚ → ℚ) : Prop := ∃ c, ∀ x, f x = c * x
 
 /-- Задача 3. -/
 example : {f : ℚ → ℚ | IsLinear f ∧ ∀ x, |f x| = |x|} = {id, -id} := by
+  sorry
