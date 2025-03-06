@@ -41,6 +41,7 @@ and `Function.Surjective f` are true-false statements.
 
 -- Typing `Function.` gets old quite quickly, so let's open the function namespace
 open Function
+-- using namespace
 
 -- Now we can just write `Injective f` and `Surjective f`.
 -- Because of a cunning hack in Lean we can also write `f.Injective` and `f.Surjective`.
@@ -75,29 +76,38 @@ example : Injective (id : X → X) :=
   by-- you can start with `rw injective_def` if you like,
   -- and later you can `rw id_eval`, although remember that `rw` doesn't
   -- work under binders like `∀`, so use `intro` first.
-  sorry
+  unfold Injective
+  intro a b h
+  unfold id at h
+  exact h
+
+-- {n : ℕ | x > 2 ∧ x^n + y^n = z^n} = ∅
 
 example : Surjective (id : X → X) := by
-  sorry
+  unfold Surjective
+  intro b
+  use b
+  rfl
 
 -- Theorem: if f : X → Y and g : Y → Z are injective,
 -- then so is g ∘ f
 example (f : X → Y) (g : Y → Z) (hf : Injective f) (hg : Injective g) : Injective (g ∘ f) :=
-  by
-  -- By definition of injectivity,
-  -- We need to show that if a,b are in X and
-  -- (g∘f)(a)=(g∘f)(b), then a=b.
-  rw [injective_def] at *
-  -- so assume a and b are arbitrary elements of X, and let `h` be the
-  -- hypothesis thst `g(f(a))=g(f(b))`
-  intro a b h
-  -- our goal is to prove a=b.
-  -- By injectivity of `g`, we deduce from `h` that `f(a)=f(b)`
-  apply hg at h
-  -- By injectivity of `f`, we deduce a=b
-  apply hf at h
-  -- Now the goal is exactly our hypothesis `h`
-  exact h
+  by exact hg.comp hf
+  -- -- By definition of injectivity,
+  -- -- We need to show that if a,b are in X and
+  -- -- (g∘f)(a)=(g∘f)(b), then a=b.
+  -- rw [injective_def] at *
+  -- -- so assume a and b are arbitrary elements of X, and let `h` be the
+  -- -- hypothesis thst `g(f(a))=g(f(b))`
+  -- intro a b h
+  -- -- our goal is to prove a=b.
+  -- -- By injectivity of `g`, we deduce from `h` that `f(a)=f(b)`
+  -- change g (f a) = g (f b) at h
+  -- apply hg at h
+  -- -- By injectivity of `f`, we deduce a=b
+  -- apply hf at h
+  -- -- Now the goal is exactly our hypothesis `h`
+  -- exact h
 
 -- Theorem: composite of two surjective functions
 -- is surjective.
@@ -127,9 +137,22 @@ example (f : X → Y) (g : Y → Z) (hf : Surjective f) (hg : Surjective g) : Su
     g (f x) = g y := by rw [hx]
     _ = z := by rw [hy]
 
+-- #eval 3 - 5
+
+example (a b c d : ℕ) (h : c = d) : (a + b - b) + c = a + d := by
+  congr
+  omega
+
+
+
 -- This is a question on the IUM (Imperial introduction to proof course) function problem sheet
-example (f : X → Y) (g : Y → Z) : Injective (g ∘ f) → Injective f := by
+example (f : X → Y) (g : Y → Z) : Injective (g ∘ f) → Injective g := by
   sorry
+
+-- f : {1} -> ℕ
+-- g : ℕ → {1}
+
+
 
 -- This is another one
 example (f : X → Y) (g : Y → Z) : Surjective (g ∘ f) → Surjective g := by

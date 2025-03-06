@@ -20,7 +20,7 @@ a "predicate" on naturals), so we should be able to make the subset
 of naturals where this predicate is true. In Lean the syntax for
 this is
 
-`{ n : ℕ | IsEven n }`
+`{ n : ℕ | IsEven n } : Set ℕ`
 
 The big question you would need to know about sets constructed in this
 way is: how do you get from `t ∈ { n : ℕ | IsEven n }` to `IsEven t`?
@@ -54,15 +54,25 @@ def IsEven (n : ℕ) : Prop :=
 -- but the way I've written it is perhaps easier to follow.
 
 example : 74 ∈ {n : ℕ | IsEven n} := by
-  sorry
+  change IsEven 74
+  unfold IsEven
+  use 37
+
+namespace Real
 
 -- Let's develop a theory of even real numbers
-def Real.IsEven (r : ℝ) :=
+def IsEven (r : ℝ) :=
   ∃ t : ℝ, r = 2 * t
+
+end Real
 
 -- Turns out it's not interesting
 example : ∀ x, x ∈ {r : ℝ | Real.IsEven r} := by
-  sorry
+  intro x
+  change Real.IsEven x
+  unfold Real.IsEven
+  use x / 2
+  ring
 
 -- likewise, the theory of positive negative real numbers is not interesting
 example : ∀ x, x ∉ {r : ℝ | 0 < r ∧ r < 0} := by

@@ -36,7 +36,6 @@ but it will always be a term of type `X`.
 
 namespace Section4sheet1
 
-
 -- set up variables
 variable (X : Type) -- Everything will be a subset of `X`
   (A B C D : Set X) -- A,B,C,D are subsets of `X`
@@ -54,7 +53,7 @@ All of these things are true *by definition* in Lean. Let's
 check this.
 
 -/
-theorem subset_def : A ⊆ B ↔ ∀ x, x ∈ A → x ∈ B := by
+theorem subset_def : A ⊆ B ↔ (∀ x, x ∈ A → x ∈ B) := by
   -- ↔ is reflexive so `rfl` works because LHS is defined to be equal to RHS
   rfl
 
@@ -79,11 +78,20 @@ Let's prove some theorems.
 
 -/
 
-example : A ⊆ A := by sorry
+example : A ⊆ A := by
+  change (∀ x, x ∈ A → x ∈ A)
+  intro a ha
+  exact ha
 
-example : A ⊆ B → B ⊆ C → A ⊆ C := by sorry
+example : A ⊆ B → B ⊆ C → A ⊆ C := by
+  exact fun a a_1 ⦃a_2⦄ a_3 ↦ a_1 (a a_3)
 
-example : A ⊆ A ∪ B := by sorry
+example : A ⊆ A ∪ B := by
+  rw [subset_def]
+  intro a ha
+  rw [mem_union_iff]
+  left
+  exact ha
 
 example : A ∩ B ⊆ A := by sorry
 

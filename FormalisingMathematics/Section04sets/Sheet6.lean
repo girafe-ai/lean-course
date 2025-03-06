@@ -38,7 +38,13 @@ for group theory. In Lean we use the notation `f ⁻¹' T` for this pullback.
 
 variable (X Y : Type) (f : X → Y) (S : Set X) (T : Set Y)
 
-example : S ⊆ f ⁻¹' (f '' S) := by sorry
+example : S ⊆ f ⁻¹' (f '' S) := by
+  intro x hx
+  unfold Set.preimage
+  change f x ∈ f '' S
+  unfold Set.image
+  change ∃ a ∈ S, f a = f x
+  use x
 
 example : f '' (f ⁻¹' T) ⊆ T := by sorry
 
@@ -47,10 +53,11 @@ example : f '' S ⊆ T ↔ S ⊆ f ⁻¹' T := by sorry
 
 -- Pushforward and pullback along the identity map don't change anything
 -- pullback is not so hard
-example : id ⁻¹' S = S := by sorry
+example : id ⁻¹' S = S := by
+  simp
 
 -- pushforward is a little trickier. You might have to `ext x, split`.
-example : id '' S = S := by sorry
+example : id '' S = S := by simp
 
 -- Now let's try composition.
 variable (Z : Type) (g : Y → Z) (U : Set Z)
