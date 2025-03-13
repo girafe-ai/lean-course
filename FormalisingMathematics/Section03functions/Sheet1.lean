@@ -152,7 +152,24 @@ example (f : X → Y) (g : Y → Z) : Injective (g ∘ f) → Injective g := by
 -- f : {1} -> ℕ
 -- g : ℕ → {1}
 
+inductive Single
+| a
 
+def f (x : Single) : ℕ := match x with
+| a => 42
+
+def g (y : ℕ) : Single := Single.a
+
+example : Injective (g ∘ f) ∧ ¬ Injective g := by
+  refine ⟨?_, ?_⟩
+  · intro x1 x2 h
+    cases x1
+    cases x2
+    rfl
+  · intro h
+    have h' : g 0 = g 1 := by rfl
+    specialize h h'
+    simp at h
 
 -- This is another one
 example (f : X → Y) (g : Y → Z) : Surjective (g ∘ f) → Surjective g := by

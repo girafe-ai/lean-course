@@ -43,7 +43,7 @@ example (g : G) : g⁻¹ * g = 1 :=
     to worry about it right now -- all that matters is that you have access
     to all the group axioms. This one is called `inv_mul_self g`.
 -/
-  inv_mul_self g
+  inv_mul_cancel g
 
 -- Why don't you use `exact?` to see the names of the other axioms
 -- of a group? Note that when `exact?` has run, you can click on
@@ -51,11 +51,11 @@ example (g : G) : g⁻¹ * g = 1 :=
 -- with the name of the axiom it found. Note also that you can instead *guess*
 -- the names of the axioms. For example what do you think the proof of `1 * a = a` is called?
 example (a b c : G) : a * b * c = a * (b * c) := by
-  sorry
+  exact mul_assoc a b c
 
 -- can be found with `library_search` if you didn't know the answer already
 example (a : G) : a * 1 = a := by
-  sorry
+  exact MulOneClass.mul_one a
 
 -- Can you guess the last two?
 example (a : G) : 1 * a = a := by
@@ -90,7 +90,7 @@ example : a⁻¹⁻¹ = a := by
   sorry
 
 example : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
-  sorry
+  exact DivisionMonoid.mul_inv_rev a b
 
 /-
 

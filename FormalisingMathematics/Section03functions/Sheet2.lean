@@ -85,6 +85,16 @@ def f : X → ℕ
   | b => 42
   | c => 0
 
+def f'' : X →  ℕ := fun x ↦ match x with
+  | a => 37
+  | b => 42
+  | c => 0
+
+def f' (x : X) : ℕ := match x with
+  | a => 37
+  | b => 42
+  | c => 0
+
 example : f a = 37 := by-- true by definition
   rfl
 

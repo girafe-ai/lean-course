@@ -65,6 +65,8 @@ theorem gf_injective : Injective (g ∘ f) := by
 -- Recall that if you have a hypothesis of the form `h : ∀ A, ...`, then `specialize h X`
 -- will specialize `h` to the specific case `A = X`.
 example : ¬∀ A B C : Type, ∀ (φ : A → B) (ψ : B → C), Injective (ψ ∘ φ) → Injective ψ := by
+  intro h
+  specialize h Unit ℕ Unit (fun _ ↦ 1) (fun _ ↦ ())
   sorry
 
 -- Below is another one. Let's make a sublemma first.
