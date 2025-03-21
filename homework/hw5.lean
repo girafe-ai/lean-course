@@ -18,17 +18,19 @@ example {G : Type} [Group G] (h : ∀ g : G, g * g = 1) : ∀ g h : G, g * h = h
 образуют группу. -/
 namespace Problem2
 
--- `neg = true` означает что к образующей добавляется минус
-inductive Q8 where
-| e (neg : Bool)
-| i (neg : Bool)
-| j (neg : Bool)
-| k (neg : Bool)
+inductive Q8_Generator where
+| e
+| i
+| j
+| k
 
--- Указание: в определении `mul` нужно сделать `match x, y with ...` и разобрать ≤ 16 случаев.
+-- Второй множитель отвечает за знак. `true` значит "минус".
+def Q8 : Type := Q8_Generator × Bool
+
+-- Указание: в определении `mul` нужно сделать `match (x, b1), (y, b2) with ...` и разобрать 16 случаев.
 -- Булы можно складывать, сложение определено как xor.
 -- После этого требуемые свойства должны доказываться разбором всех случаев
--- как-то так: `cases x <;> cases y <;> rfl`
+-- как-то так: `cases x <;> cases b1 <;> cases y <;> cases b2 <;> rfl`
 instance : Group Q8 where
   one := sorry
   mul := sorry
@@ -41,9 +43,13 @@ instance : Group Q8 where
 end Problem2
 
 open Problem2 in
-/-- Задача 3: Q8 не изоморфна D4.
+/-- Задача 3 (сложная): Q₈ не изоморфна D₄.
 
-Указание: в группе Q8 есть 6 различных элементов порядка 4, а в D4 всего 1. -/
+Указание: в группе Q8 есть два некоммутирующих элемента порядка 4: `i` и `j`, а в D4 нет.
+Там всего два элемента порядка 4: `r 1` и `r 3` и те коммутируют.
+Про диэдральную группу Dₙ можно почитать в Википедии.
+https://ru.wikipedia.org/wiki/%D0%94%D0%B8%D1%8D%D0%B4%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0
+-/
 example (φ : Q8 →* DihedralGroup 4) (ψ : DihedralGroup 4 →* Q8) (h1 : φ ∘ ψ = id) (h2 : ψ ∘ φ = id) :
     False := by
   sorry
