@@ -66,7 +66,8 @@ example : G →* K :=
 -- The next three lemmas are pretty standard, but they are also in fact
 -- the axioms that show that groups form a category.
 theorem comp_id : φ.comp (MonoidHom.id G) = φ := by
-  sorry
+  ext g
+  rfl
 
 theorem id_comp : (MonoidHom.id H).comp φ = φ := by
   sorry

@@ -52,15 +52,32 @@ example (a b c : X) (hab : a ≤ b) (hbc : b ≤ c) : a ≤ c := by
   · exact hab
   · exact hbc
 
+example (a b c : X) (hab : a ≤ b) (hbc : b ≤ c) : a ≤ c := by
+  calc
+    a ≤ b := hab
+    b ≤ c := hbc
+
+example (a b c d : X) (hab : a ≤ b) (hbd : b = d) (hbc : d ≤ c) : a ≤ c := by
+  calc
+    a ≤ b := hab
+    b = d := hbd
+    d ≤ c := hbc
+
+
 -- Let a,b,c,d be arbitrary elements of `X`
 variable (a b c d : X)
 
 -- See if you can prove these basic facts about partial orders.
 example : a ≤ a := by
-  sorry
+  exact Preorder.le_refl a
 
 example (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d) : a ≤ d := by
-  sorry
+  trans b
+  · exact hab
+  trans c
+  · exact hbc
+  · exact hcd
 
 example (hab : a ≤ b) (hbc : b ≤ c) (hca : c ≤ a) : a = b := by
-  sorry
+  have hba : b ≤ a := hbc.trans hca
+  apply le_antisymm hab hba

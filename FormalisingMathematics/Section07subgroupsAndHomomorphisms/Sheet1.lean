@@ -44,13 +44,20 @@ example (ha : a ∈ H) (hb : b ∈ H) : a * b ∈ H :=
 -- Let's use these axioms to make more API for subgroups.
 -- First, see if you can put the axioms together to prove subgroups are closed under "division".
 example (ha : a ∈ H) (hb : b ∈ H) : a * b⁻¹ ∈ H := by
-  sorry
+  apply mul_mem
+  · exact ha
+  · exact inv_mem hb
 
 -- Now try these. You might want to remind yourself of the API for groups as explained
 -- in an earlier section, or make use of the `group` tactic.
 -- This lemma is called `Subgroup.inv_mem_iff` but try proving it yourself
 example : a⁻¹ ∈ H ↔ a ∈ H := by
-  sorry
+  constructor
+  · conv =>
+      arg 2; arg 2; rw [show a = (a⁻¹)⁻¹ by group]
+    apply inv_mem
+  · exact inv_mem
+
 
 -- this is `mul_mem_cancel_left` but see if you can do it from the axioms of subgroups.
 -- Again feel free to use the `group` tactic.
@@ -67,6 +74,8 @@ they form a complete lattice. Let's just check this:
 -/
 example : CompleteLattice (Subgroup G) := by
   infer_instance
+
+#synth CompleteLattice (Subgroup G)
 
 /-
 
@@ -106,25 +115,46 @@ variable {G H} {x : G}
 
 variable {y z : G}
 
-theorem conjugate.one_mem : (1 : G) ∈ {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹} := by
-  sorry
+theorem conjugate.one_mem : (1 : G) ∈ {a : G | ∃ h ∈ H, a = x * h * x⁻¹} := by
+  simp
+  use 1
+  simp
+  exact Subgroup.one_mem H
+
 
 theorem conjugate.inv_mem (hy : y ∈ {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹}) :
     y⁻¹ ∈ {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹} := by
-  sorry
+  simp at hy ⊢
+  obtain ⟨h, hy1, hy2⟩ := hy
+  use h⁻¹
+  constructor
+  · simp
+    exact hy1
+  rw [hy2]
+  group
 
 theorem conjugate.mul_mem (hy : y ∈ {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹})
     (hz : z ∈ {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹}) :
     y * z ∈ {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹} := by
-  sorry
+  simp at hy hz
+  obtain ⟨t, hy1, hy2⟩ := hy
+  obtain ⟨s, hz1, hz2⟩ := hz
+  simp
+  use t * s
+  constructor
+  · exact (Subgroup.mul_mem_cancel_right H hz1).mpr hy1
+  · rw [hy2, hz2]
+    group
 
 -- Now here's the way to put everything together:
-def conjugate (H : Subgroup G) (x : G) : Subgroup G
-    where
+def conjugate (H : Subgroup G) (x : G) : Subgroup G := {
   carrier := {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹}
   one_mem' := conjugate.one_mem
   inv_mem' := conjugate.inv_mem
   mul_mem' := conjugate.mul_mem
+}
+
+-- для любого x и подгруппы H xHx⁻¹ -- это подгруппа
 
 /-
 
@@ -165,6 +195,18 @@ theorem conjugate_top : conjugate ⊤ x = ⊤ := by
   sorry
 
 theorem conjugate_eq_of_abelian (habelian : ∀ a b : G, a * b = b * a) : conjugate H x = H := by
-  sorry
+  ext g
+  simp [conjugate]
+  constructor
+  · intro ⟨s, h1, h2⟩
+    rw [h2]
+    rw [habelian x s]
+    group
+    exact h1
+  · intro h
+    use g
+    simp [h]
+    rw [habelian x g]
+    group
 
 end Section7sheet1

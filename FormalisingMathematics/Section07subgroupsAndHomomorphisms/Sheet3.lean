@@ -61,7 +61,7 @@ example : Function.Surjective (mk' N) :=
   mk'_surjective N
 
 -- Two elements of G have the same image in `G ⧸ N` iff they differ by an element of `N`
-example (x y : G) : mk' N x = mk' N y ↔ ∃ n ∈ N, x * n = y :=
+lemma lem1 (x y : G) : mk' N x = mk' N y ↔ ∃ n ∈ N, x * n = y :=
   mk'_eq_mk' N -- this is QuotientGroup.mk'_eq_mk'
 
 /-
@@ -69,7 +69,26 @@ There is of course much more API, but if you want to get some practice you can
 just develop some of it yourself from these two functions.
 -/
 example : (mk' N).ker = N := by
-  sorry
+  ext g
+  constructor
+  · intro h1
+    change mk' N g = 1 at h1
+    have h2 := lem1 G N g 1
+    rw [h1] at h2
+    simp at h2
+    obtain ⟨n, hn1, hn2⟩ := h2
+    replace hn2 : g = n⁻¹ := by
+      exact eq_inv_of_mul_eq_one_left hn2
+    rw [hn2]
+    exact (Subgroup.inv_mem_iff N).mpr hn1
+  · intro h1
+    change mk' N g = 1
+    have h2 := lem1 G N g 1
+    conv at h2 => lhs; rhs; simp
+    rw [h2]
+    use g⁻¹
+    simp
+    exact h1
 
 /-
 # Universal properties

@@ -81,22 +81,38 @@ Using these axioms, see if you can develop the basic theory of lattices.
 -- let L be a lattice, and let a,b,c be elements of L
 variable (L : Type) [Lattice L] (a b c : L)
 
+-- (a ⊔ b) ⊓ a = a
+-- (a ⊓ b) ⊔ a = a
+
+-- a ≤ b := (a = a ⊓ b)
+
 example : a ⊔ b = b ⊔ a := by
   -- you might want to start with `apply le_antisymm` (every lattice is a partial order so this is OK)
   -- You'll then have two goals so use `\.` and indent two spaces.
-  sorry
+  apply le_antisymm
+  · apply sup_le
+    · exact le_sup_right
+    · exact le_sup_left
+  · sorry
 
 example : a ⊔ b ⊔ c = a ⊔ (b ⊔ c) := by
-  sorry
+  exact sup_assoc a b c
 
 -- could golf this entire proof into one (long) line
 -- `a ⊓ _` preserves `≤`.
 -- Note: this is called `inf_le_inf_left a h` in mathlib; see if you can prove it
 -- directly without using this.
 example (h : b ≤ c) : a ⊓ b ≤ a ⊓ c := by
-  sorry
+  apply le_inf
+  · exact inf_le_left
+  · trans b
+    · exact inf_le_right
+    · exact h
 
 /-
+
+-- (a ⊓ b) ⊔ c = (a ⊔ c) ⊓ (b ⊔ c)
+-- (a ⊔ b) ⊓ c = (a ⊓ c) ⊔ (b ⊓ c)
 
 We all know that multiplication "distributes" over addition, i.e. `p*(q+r)=p*q+p*r`,
 but of course addition does not distribute over multiplication (`p+(q*r)≠(p+q)*(p+r)` in general).
@@ -109,7 +125,7 @@ do have inclusions though, which is what you can prove in general.
 -/
 -- `inf_le_inf_left`, proved above, is helpful here.
 example : (a ⊓ b) ⊔ (a ⊓ c) ≤ a ⊓ (b ⊔ c) := by
-  sorry
+  exact le_inf_sup
 
 -- use `sup_le_sup_left` for this one.
 example : a ⊔ b ⊓ c ≤ (a ⊔ b) ⊓ (a ⊔ c) := by
