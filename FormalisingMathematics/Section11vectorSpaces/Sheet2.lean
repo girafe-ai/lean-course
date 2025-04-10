@@ -60,7 +60,7 @@ vector space and `A, B` are two subspaces of dimension 5, then `A ∩ B` cannot 
 the zero vector space.
 
 -/
-open FiniteDimensional -- now we can just write `finrank`.
+open Module
 
 example (A B : Subspace k V) (hV : finrank k V = 9) (hA : finrank k A = 5) (hB : finrank k B = 5) :
     A ⊓ B ≠ ⊥ := by
