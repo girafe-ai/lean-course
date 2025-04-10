@@ -49,7 +49,7 @@ Note that `Y` needs to have a `zero` for this notion to make sense.
 -/
 
 example : Type :=
-  ℕ →₀ ℕ -- works because ℕ has a zero
+  ℕ →₀ ℤ -- works because ℕ has a zero
 
 /-
 
@@ -87,4 +87,4 @@ example (X : Type) (k : Type) [Field k] (f g : X →₀ k) (c : k) : X →₀ k 
 -- designed to prove theorems, not find definitions), but we want
 -- to definitely use `f` so try `by exact? using f` and you'll hopefully get the right answer.
 example (X : Type) (k : Type) [Field k] (f : X →₀ k) : Finset X := by
-  sorry
+  exact f.support

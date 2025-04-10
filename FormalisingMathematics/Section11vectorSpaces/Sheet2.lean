@@ -64,4 +64,9 @@ open Module
 
 example (A B : Subspace k V) (hV : finrank k V = 9) (hA : finrank k A = 5) (hB : finrank k B = 5) :
     A ⊓ B ≠ ⊥ := by
-  sorry
+  have h1 := Submodule.finrank_sup_add_finrank_inf_eq A B
+  simp [hA, hB] at h1
+  have h2 := Submodule.finrank_le (A ⊔ B)
+  rw [hV] at h2
+  suffices finrank k ↥(A ⊓ B) ≥ 1 from Submodule.one_le_finrank_iff.mp this
+  linarith

@@ -36,6 +36,22 @@ is one way of saying "let `S` be a finite subset of `X`":
 
 -/
 
+variable (X : Type) (P : X → Prop)
+
+def Y : Type := {x : X // P x}
+
+#check Subtype
+
+def Evens : Type := {x : ℕ // x % 2 = 0}
+
+def two : Evens := ⟨2, by simp⟩
+
+def toType (S : Set X) : Type := S
+
+#print toType
+
+
+
 -- Let X be a type, let `S` be a subset of `X`, and assume `S` is finite. Then S=S.
 example (X : Type) (S : Set X) (hS : Set.Finite S) : S = S := by
   rfl
@@ -48,9 +64,8 @@ example (X : Type) (S : Set X) (hS : S.Finite) : S = S := by
 -- Lots of proofs about finite sets in this sense live in the `Set.Finite` namespace.
 -- How would you find out the name of the lemma saying that the union of two finite
 -- sets is finite?
-example (X : Type) (S : Set X) (T : Set X) (hs : Set.Finite S) (ht : T.Finite) : (S ∪ T).Finite :=
-  by
-  sorry
+example (X : Type) (S : Set X) (T : Set X) (hs : S.Finite) (ht : T.Finite) : (S ∪ T).Finite := by
+  exact Set.Finite.union hs ht
 
 /-
 But Lean has another way to do finite subsets.
@@ -80,7 +95,7 @@ example (S : Finset X) : (S : Set X) = (S : Set X) := by
   rfl
 
 -- Lean has the theorem that if you start with a Finset, then the coerced set is finite.
-example (S : Finset X) : Set.Finite (S : Set X) :=
+example (S : Finset X) : Set.Finite S.toSet :=
   S.finite_toSet
 
 /-

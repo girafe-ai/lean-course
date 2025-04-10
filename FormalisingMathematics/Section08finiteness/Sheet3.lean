@@ -80,11 +80,11 @@ example : ∑ x : Fin 10, x = 45 := by
   rfl
 
 -- Actually I just tricked you. Can you explain this?
-example : ∑ x : Fin 10, x = 25 := by
+example : ∑ x : Fin 10, x = 45 := by
   rfl
 
 -- Here's a better proof
-example : ∑ x : Fin 10, x.val = 45 := by
+example : ∑ x : Fin 10, (x : ℕ) = 45 := by
   rfl
 
 -- Take a look at the types of the 45 in those proof. Do you know how to? Do you know

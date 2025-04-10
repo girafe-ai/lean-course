@@ -53,7 +53,7 @@ example : V :=
 
 -- Given a basis `B` with index set `I`, the function `Basis.repr B`, or `B.repr`,
 -- is the `k`-linear isomorphism from `V` to these finitely-supported functions.
-example : V ≃ₗ[k] I →₀ k :=
+example : V ≃ₗ[k] (I →₀ k) :=
   B.repr
 
 -- If `I` is finite, then you can use the space of all functions `I → k` (because they're
@@ -96,12 +96,20 @@ example (f : I → W) (i : I) : B.constr k f (B i) = f i :=
 
 -- Finally, `Basis.ext` is the theorem that two linear maps are equal if they agree
 -- on a basis of the source
-example (φ ψ : V →ₗ[k] W) (h : ∀ i : I, φ (B i) = ψ (B i)) : φ = ψ :=
+lemma aux (φ ψ : V →ₗ[k] W) (h : ∀ i : I, φ (B i) = ψ (B i)) : φ = ψ :=
   B.ext h
 
 -- That should be all you need to do this!
-example (f : I → W) : ∃! φ : V →ₗ[k] W, ∀ i, φ (B i) = f i :=
-  sorry
+example (f : I → W) : ∃! φ : V →ₗ[k] W, ∀ i, φ (B i) = f i := by
+  use B.constr k f
+  constructor
+  · dsimp
+    intro i
+    exact B.constr_basis k f i
+  · intro ψ hψ
+    apply aux (B := B)
+    simp
+    assumption
 
 -- Now say `C` is a basis of `W`, indexed by a type `J`
 variable (J : Type) (C : Basis J k W)
@@ -120,5 +128,46 @@ example : (V →ₗ[k] W) ≃ₗ[k] Matrix J I k :=
 -- check that this bijection does give what we expect.
 -- Right-click on `LinearMap.toMatrix` and then "go to definition" to find
 -- the API for `LinearMap.toMatrix`.
-example (φ : V →ₗ[k] W) (i : I) (j : J) : LinearMap.toMatrix B C φ j i = C.repr (φ (B i)) j := by
+example (φ : V →ₗ[k] W) (i : I) (j : J) : ((LinearMap.toMatrix B C) φ) j i = C.repr (φ (B i)) j := by
+  exact LinearMap.toMatrix_apply B C φ j i
+
+example (A : V →ₗ[k] V) (h : ∀ B : V →ₗ[k] V, A.comp B = B.comp A) : ∃ c : k, A = c • .id := by
+  -- для базисного B i берем оператор F i который все остальные базисные векторы обнуляет, а B i сохраняет
+  let F (i : I) : V →ₗ[k] V :=
+    let f : I →₀ V := Finsupp.single i (B i)
+    B.constr k f
+  -- Fi A (B i) = A Fi (B i) = A (B i)
+  have h1 : ∀ i, A.comp (F i) = (F i).comp A := by
+    solve_by_elim
+  have h2 : ∀ i, (F i) (A (B i)) = A (B i) := by
+    intro i
+    specialize h1 i
+    conv =>
+      lhs
+      change (F i ∘ₗ A) (B i)
+    rw [← h1]
+    simp [F]
+  have h3 : ∀ i : I, ∃ c : k, A (B i) = c • (B i) := by
+    intro i
+    specialize h2 i
+    have h4 : ∀ j, j ≠ i → B.repr (A (B i)) j = 0 := by
+      intro j hji
+      rw [← h2]
+      generalize A (B i) = u
+      simp [F]
+      rw [Fintype.sum_eq_add_sum_compl i]
+      have h5 : (Finsupp.single i 1) j = (0 : k) := by
+        exact Finsupp.single_eq_of_ne (id (Ne.symm hji))
+      simp [h5]
+      apply Finset.sum_eq_zero
+      intro x hx
+      simp at hx
+      suffices (B.repr ((Finsupp.single i (B i)) x)) j = 0 by
+        simp [this]
+      have h6 : (Finsupp.single i (B i)) x = 0 := by
+        exact Finsupp.single_eq_of_ne fun a ↦ hx (id (Eq.symm a))
+      rw [h6]
+      simp
+    sorry
+  -- Нужно взять G i j который переставляет местами B i и B j
   sorry
