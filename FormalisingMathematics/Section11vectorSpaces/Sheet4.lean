@@ -120,5 +120,5 @@ example : (V →ₗ[k] W) ≃ₗ[k] Matrix J I k :=
 -- check that this bijection does give what we expect.
 -- Right-click on `LinearMap.toMatrix` and then "go to definition" to find
 -- the API for `LinearMap.toMatrix`.
-example (φ : V →ₗ[k] W) (i : I) (j : J) : LinearMap.toMatrix B C φ j i = C.repr (φ (B i)) j :=
+example (φ : V →ₗ[k] W) (i : I) (j : J) : LinearMap.toMatrix B C φ j i = C.repr (φ (B i)) j := by
   sorry

@@ -81,7 +81,7 @@ example (S : Finset X) : (S : Set X) = (S : Set X) := by
 
 -- Lean has the theorem that if you start with a Finset, then the coerced set is finite.
 example (S : Finset X) : Set.Finite (S : Set X) :=
-  Set.toFinite S
+  S.finite_toSet
 
 /-
 
