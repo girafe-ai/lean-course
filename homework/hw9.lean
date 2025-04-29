@@ -21,7 +21,7 @@ theorem secondMax_spec (arr : List ℕ) (h : 1 < arr.length) :
     -- либо существует ровно один элемент (максимум) больше `secondMax`
     (∃! v ∈ arr, secondMax arr < v) ∨
     -- либо `secondMax` совпадает с максимумом, и таких элементов в массиве хотя бы 2.
-    (∀ v ∈ arr, v ≤ secondMax) ∧ (∃ (i : Fin arr.length), ∃ j ≠ i, arr[i] = secondMax arr ∧ arr[j] = secondMax arr) := by
+    (∀ v ∈ arr, v ≤ secondMax arr) ∧ (∃ (i : Fin arr.length), ∃ j ≠ i, arr[i] = secondMax arr ∧ arr[j] = secondMax arr) := by
   sorry
 
 end Problem1
